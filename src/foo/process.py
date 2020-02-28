@@ -1,8 +1,16 @@
 import pandas as pd
+import local_package
+from .modules.local_module import *
 
 # download_url : S3 url of a file. The file is a CSV table in our example but 
 #               could also be a zipped folder, which can be extracted below.
 def process(download_url):
+    # Test local pip package
+    local_package.test_local_package()
+
+    # Test local module
+    test_local_module()
+
     # Read the csv table into a pandas dataframe
     df = pd.read_csv(download_url)
 
@@ -16,5 +24,3 @@ def process(download_url):
 
     # Return dataframe
     return of
-
-
