@@ -25,4 +25,4 @@ class ProcessView(APIView):
                 continue
             break
         df = process(s3_url)
-        return Response({"output": df.to_dict('records')}, status=status.HTTP_200_OK)
+        return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
