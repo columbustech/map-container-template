@@ -16,13 +16,12 @@ class ProcessView(APIView):
         download_url = request.data['downloadUrl']
         access_token = request.data['accessToken']
 
-        s3_url = None
-        for i in range(0, 10):
-            try:
-                resp = requests.get(url=download_url, headers={'Authorization':'Bearer ' + access_token})
-                s3_url = resp.json()['download_url']
-            except:
-                continue
-            break
-        df = process(s3_url)
-        return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
+        resp = requests.get(url=download_url, headers={'Authorization':'Bearer ' + access_token})
+        if resp.status_code != 200:
+            return Response({"message": "Error downloading file from CDrive"}, status=status.HTTP_400_BAD_REQUEST)
+        s3_url = resp.json()['download_url']
+        try:
+            df = process(s3_url)
+            return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({str(e), status=status.HTTP_400_BAD_REQUEST)
