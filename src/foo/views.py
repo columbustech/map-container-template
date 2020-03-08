@@ -24,4 +24,4 @@ class ProcessView(APIView):
             df = process(s3_url)
             return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({str(e), status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
