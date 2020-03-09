@@ -9,4 +9,4 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 WORKDIR /map-function/src
 
 EXPOSE 8000
-CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "foo.wsgi"] 
