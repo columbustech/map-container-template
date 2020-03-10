@@ -7,4 +7,4 @@ COPY src .
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "foo.wsgi"] 
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "3600", "--error-logfile", "-", "--access-logfile", "-", "--log-level", "debug", "foo.wsgi"] 
