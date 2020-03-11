@@ -20,8 +20,5 @@ class ProcessView(APIView):
         if resp.status_code != 200:
             return Response({"message": "Error downloading file from CDrive"}, status=status.HTTP_400_BAD_REQUEST)
         s3_url = resp.json()['download_url']
-        try:
-            df = process(s3_url)
-            return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"message": "Error in process function"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        df = process(s3_url)
+        return Response({"output": df.to_json(orient='records')}, status=status.HTTP_200_OK)
